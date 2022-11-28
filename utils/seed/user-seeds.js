@@ -1,20 +1,19 @@
-const { user } = require('../models');
+const { User } = require('../../models');
 
-if (collection.length === 0) {
-  return user.insertMany(
-    [
-      { name: 'Produce' },
-      { name: 'Dairy' },
-      { name: 'Meat' },
-      { name: 'Wine' },
-      { name: 'Wine' },
-      { name: 'Wine' },
-      { name: 'Flowers' },
-    ],
-    (insertError) =>
-      insertError ? handleError(insertError) : console.log('Inserted')
-  );
+const seedUser = async () => {
+
+    await User.deleteMany({});
+
+const data =  await User.insertMany(
+      [
+        { username: 'Bob', email: 'bob@bob.com' }, //, thoughts: [1,5], friends: [2,3,4]
+        { username: 'Dan', email: 'Dan@Dan.com'   }, //, thoughts: [2, 6], friends: [1,3,4]
+        { username: 'Lyndsey', email: 'Lyndsey@Lyndsey.com' }, //, thoughts: 3, friends: [1,2,4]
+        { username: 'Scott', email: 'Scott@Scott.com' }, //, thoughts: 4, friends: [1,2,3] 
+      ],
+    ).then((err) =>
+    err ? console.log(err) : console.log('Inserted'));
+
 }
-return console.log('Already populated');
 
-module.exports = seedUser;
+module.exports = {seedUser};

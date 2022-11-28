@@ -1,16 +1,25 @@
-const mongoose = require('mongoose');
-const seedUser = require('./user-seeds');
-
-const sequelize = require('../config/connection');
+const connection = require('../../config/connection');
+const { seedUser } = require('./user-seeds');
+const { seedThought } = require('./thought-seeds');
+const { seedReaction } = require('./Reaction-seeds');
 
 const seedAll = async () => {
-  await sequelize.sync({ force: true });
-  console.log('\n----- DATABASE SYNCED -----\n');
+  connection.on('error', (err) => console.log(err));
 
-  await seedUser();
-  console.log('\n----- USERS SEEDED -----\n');
+  connection.once('open', async () => {
+    console.log('connected');
 
-  process.exit(0);
+    await seedUser();
+    console.log('\n----- USERS SEEDED -----\n');
+
+    await seedThought();
+    console.log('\n----- THOUGHTS SEEDED -----\n');
+
+    // await seedReaction();
+    // console.log('\n----- REACTION SEEDED -----\n');
+
+    process.exit(0);
+  });
 };
 
 seedAll();
